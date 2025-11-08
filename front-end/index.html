@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>InfoSaúde PRO - Acesso Seguro</title>
+    <link rel="stylesheet" href="./styles/style.css">
+    <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Cpath fill='%23007bff' d='M512 256c0 141.4-114.6 256-256 256S0 397.4 0 256 114.6 0 256 0s256 114.6 256 256zM256 160c-26.5 0-48 21.5-48 48s21.5 48 48 48 48-21.5 48-48-21.5-48-48-48zM280 384h-48V288h-48V256h144v32h-48z'/%3E%3C/svg%3E">
+</head>
+<body>
+    <header>
+        <div class="logo">InfoSaúde PRO</div>
+        <nav>
+            <button id="logout-button" style="display: none;" onclick="logout()">Sair</button>
+        </nav>
+    </header>
+
+    <div class="container">
+        
+        <div id="login-section" class="card">
+            <h2><span class="icon">🔑</span> Acesso ao Sistema</h2>
+            <div class="input-group">
+                <label for="username">Usuário:</label>
+                <input type="text" id="username" placeholder="Ex: admin ou medico">
+            </div>
+            <div class="input-group">
+                <label for="password">Senha:</label>
+                <input type="password" id="password" placeholder="Digite sua senha">
+            </div>
+            <button onclick="handleLogin()">Entrar</button>
+            <p id="login-message" class="message error-message"></p>
+        </div>
+
+        <div id="data-section" class="card" style="display: none;">
+            <h2><span class="icon">🛡️</span> Consulta de Prontuário</h2>
+            <p class="status-bar">Status: <strong id="auth-status">Aguardando...</strong></p>
+            
+            <div class="input-group">
+                <label for="pacienteId">ID do Paciente:</label>
+                <input type="number" id="pacienteId" placeholder="1, 2, 3...">
+            </div>
+            
+            <button onclick="buscarPaciente()">Buscar Prontuário</button>
+            
+            <div id="paciente-data" class="data-box">
+                </div>
+            
+            <p class="nota-seguranca">
+                * Demonstra: **Criptografia/Descriptografia** (dados lidos) e **Autorização (ROLE)**.
+            </p>
+        </div>
+    </div>
+
+    <footer>
+        Projeto de Segurança da Informação em JAVA Spring Boot.
+    </footer>
+
+    <script src="./script.js"></script>
+</body>
+</html>

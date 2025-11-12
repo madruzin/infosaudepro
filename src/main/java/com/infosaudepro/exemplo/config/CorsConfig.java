@@ -13,7 +13,7 @@ public class CorsConfig {
         return new WebMvcConfigurer() {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
-                // ✅ Permite acesso de localhost:8000 e 127.0.0.1:8000
+                //Permite acesso de localhost:8000 e 127.0.0.1:8000
                 registry.addMapping("/**") // Aplica a configuração a TODOS os endpoints do backend
                         .allowedOrigins(
                                 "http://localhost:8000",

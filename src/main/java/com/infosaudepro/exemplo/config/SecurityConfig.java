@@ -1,8 +1,7 @@
-// src/main/java/com/infosaudepro/exemplo/config/SecurityConfig.java
 package com.infosaudepro.exemplo.config;
 
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Configuration; // <-- Import de @Configuration
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -30,17 +29,17 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                // 🚨 Habilita CORS, usando o bean definido abaixo
+                // Habilita CORS
                 .cors(withDefaults())
 
                 // Desabilita CSRF (comum para APIs REST)
                 .csrf(AbstractHttpConfigurer::disable)
 
-                // Habilita autenticação HTTP Basic
+                // Habilita autenticação HTTP Basic (requer Authorization header)
                 .httpBasic(withDefaults())
 
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/auth/login").authenticated()
+                        // Todas as requisições exigem autenticação (usuário deve enviar o header Authorization)
                         .anyRequest().authenticated()
                 );
 
@@ -48,22 +47,22 @@ public class SecurityConfig {
     }
 
     /**
-     * Bean de configuração CORS para permitir acesso do frontend (porta 8000).
+     * Bean de configuração CORS para permitir acesso do frontend (porta 8000/127.0.0.1:8000).
      */
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
 
-        // 🔑 Permite acesso do seu frontend
-        configuration.setAllowedOrigins(Arrays.asList("http://localhost:8000"));
+        // Permite acesso do seu frontend
+        configuration.setAllowedOrigins(Arrays.asList("http://localhost:8000", "http://127.0.0.1:8000"));
 
-        // Permite os métodos de CRUD
+        // Permite os métodos necessários, incluindo OPTIONS para preflight requests
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
 
-        // Permite headers necessários para Basic Auth e JSON
+        // Permite headers como Authorization e Content-Type
         configuration.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type"));
 
-        // Permite o envio de credenciais (Basic Auth)
+        // Necessário para permitir o envio do cabeçalho Authorization (credenciais)
         configuration.setAllowCredentials(true);
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
